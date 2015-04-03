@@ -19,4 +19,5 @@ That's it.
 5.	Once added you should now see “Project Spartan” in the F5 drop down
 
 In the Win10 10049 flight Project Spartan can’t access localhost by default so you need to add the loopback permission. To do that from an admin command prompt:
+
 CheckNetIsolation LoopbackExempt -a -n=Microsoft.Windows.Spartan_cw5n1h2txyewy
