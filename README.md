@@ -16,7 +16,8 @@ That's it.
   1. Program: \<path to ProjectSpartanLauncher.exe\>
   2.	Arguments: \<leave empty\>
   3. Friendly Name: Project Spartan
-5.	Once added you should now see “Project Spartan” in the F5 drop down
+5.	Once added you should now see “Project Spartan” in the F5 drop down 
+  1. This will not enable debugging of Script from VS, just launching
 
 In the Win10 10049 flight Project Spartan can’t access localhost by default so you need to add the loopback permission. To do that from an admin command prompt:
 
