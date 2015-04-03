@@ -7,7 +7,7 @@ A simple command line exe to launch Project Spartan at a URL. Handy if you need 
 
 That's it.
 
-##Visual Studio Launching Spartan
+###Visual Studio Launching Spartan
 
 1.	Download [latest](https://github.com/andysterland/ProjectSpartanLauncher/releases/download/v0.1/ProjectSpartanLauncher.exe) exe from releases 
 2.	In Visual Studio open the “Browse With…” dialog (right click on a html file in solution explorer)
