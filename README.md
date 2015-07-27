@@ -8,6 +8,7 @@ A simple command line exe to launch the Microsoft Edge browser at a URL. Handy i
 That's it.
 
 ###Visual Studio Launching Microsoft Edge
+If you're using Visual Studio 2015 you don't need to do this as VS 2015 has built in support for Edge. If you are using an older version of VS and want to be able to F5 launch Edge you'll need to follow the steps below.
 
 1.	Download [latest](https://github.com/andysterland/ProjectSpartanLauncher/releases/download/v0.1/ProjectSpartanLauncher.exe) exe from releases 
 2.	In Visual Studio open the “Browse With…” dialog (right click on a html file in solution explorer)
