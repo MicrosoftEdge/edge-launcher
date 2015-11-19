@@ -3,56 +3,49 @@
 #include <Shobjidl.h>
 #include <iostream>
 
-int _tmain(int argc, _TCHAR* argv[])
-{
+int _tmain(int argc, _TCHAR* argv[]){
     HRESULT hr = E_FAIL;
     hr = CoInitialize(NULL);
-    if (!SUCCEEDED(hr))
-    {
+    if (!SUCCEEDED(hr)){
         return hr;
     }
-
-    if (2 == argc)
-    {
-        // First param is the path to the exe         
-            hr = OpenUrlInMicrosoftEdge(argv[1]);
+    if (2 == argc){   
+		if ((argv[1] == L"-h") | (argv[1] == L"-help")) {
+			std::cout << "Launches the Microsoft Edge browser.";
+			std::cout << "\n";
+			std::cout << "\n";
+			std::cout << "Usage:";
+			std::cout << "\n";
+			std::cout << "\tMicrosoftEdgeLauncher.exe [url]";
+			std::cout << "\n";
+			std::cout << "\n";
+			std::cout << "\turl - The URL to open in Microsoft Edge.";
+			std::cout << "\n";
+			std::cout << "\n";
+			hr = E_ABORT;
+		}
+		else {
+			hr = OpenUrlInMicrosoftEdge(argv[1]);
+		}
     }
-    else
-    {
-        std::cout << "Launches the Microsoft Edge browser.";
-        std::cout << "\n";
-        std::cout << "\n";
-        std::cout << "Usage:";
-        std::cout << "\n";
-        std::cout << "\tMicrosoftEdgeLauncher.exe [url]";
-        std::cout << "\n";
-        std::cout << "\n";
-        std::cout << "\turl - The URL to open in Microsoft Edge.";
-        std::cout << "\n";
-        std::cout << "\n";
-        hr = E_INVALIDARG;
+    else{
+		hr = OpenUrlInMicrosoftEdge(L"");
     }
-
     CoUninitialize();
-
     return hr;
 }
 
-
-HRESULT OpenUrlInMicrosoftEdge(__in PCWSTR url)
-{
-    HRESULT hr = E_FAIL;
-    CComPtr<IApplicationActivationManager> activationManager;
-    LPCWSTR edgeAUMID = L"Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge";
-    hr = CoCreateInstance(CLSID_ApplicationActivationManager, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&activationManager));
-    if (SUCCEEDED(hr))
-    {
-        DWORD newProcessId;
-        hr = activationManager->ActivateApplication(edgeAUMID, url, AO_NONE, &newProcessId);
-    }
-    else
-    {
-        std::cout << L"Failed to launch Microsoft Edge";
-    }
-    return hr;
+HRESULT OpenUrlInMicrosoftEdge(__in PCWSTR url){
+	HRESULT hr = E_FAIL;
+	CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+	SHELLEXECUTEINFOW sei = { sizeof sei };
+	sei.lpVerb = L"open";
+	std::wstring mywstring(url);
+	std::wstring concatted_stdstr = L"microsoft-edge:" + mywstring;
+	sei.lpFile = concatted_stdstr.c_str();
+	hr = ShellExecuteExW(&sei);
+	if (FAILED(hr)) {
+		std::cout << L"Failed to launch Microsoft Edge";
+	}
+	return hr;
 }
