@@ -95,8 +95,7 @@
     <ResourceCompile Include="MicrosoftEdgeLauncher.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Desktop\edge.ico" />
-    <Image Include="..\..\..\..\Desktop\MicrosoftEdgeSquare44x44.targetsize-256_altform-unplated.png" />
+    <Image Include="edge.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

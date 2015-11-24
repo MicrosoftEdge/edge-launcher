@@ -42,10 +42,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Desktop\MicrosoftEdgeSquare44x44.targetsize-256_altform-unplated.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\..\..\..\Desktop\edge.ico">
+    <Image Include="edge.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
