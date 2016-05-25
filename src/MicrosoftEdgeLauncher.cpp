@@ -3,7 +3,6 @@
 #include <Shobjidl.h>
 #include <iostream>
 #include <Psapi.h>
-#include <Mshtml.h>
 #include "Helpers.h"
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -50,29 +49,32 @@ int _tmain(int argc, _TCHAR* argv[])
         pszUrl = L"http://www.bing.com/";
     }
 
-    DWORD pid = 0;
-    hr = LaunchEdge(pszUrl, pid);
-
-    if (SUCCEEDED(hr) && bKeepAlive)
-    {
-        AttachLifeTime(pid);
-    }
+    hr = LaunchEdge(pszUrl, bKeepAlive);
 
     CoUninitialize();
     return hr;
 }
 
 
-HRESULT LaunchEdge(_In_ PCWSTR pszUrl, _Out_ DWORD pid)
+HRESULT LaunchEdge(_In_ PCWSTR pszUrl, _In_ BOOL bKeepAlive)
 {
     PCWSTR pszAppUserModelId = L"Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge";
     PCWSTR pszInitialUrl = L"http://www.bing.com/";
     HRESULT hr;
     DWORD dwProcessID;
 
-    CComPtr<IApplicationActivationManager> spActivationManager;
-    hr = CoCreateInstance(CLSID_ApplicationActivationManager, /*punkOuter*/ nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&spActivationManager));
-    hr = spActivationManager->ActivateApplication(pszAppUserModelId, pszInitialUrl, AO_NONE, &dwProcessID);
+    SHELLEXECUTEINFOW sei = { sizeof sei };
+    sei.lpVerb = L"open";
+    std::wstring wsUrl(pszUrl);
+    std::wstring concatted_stdstr = L"microsoft-edge:" + wsUrl;
+    sei.lpFile = concatted_stdstr.c_str();
+    hr = ShellExecuteExW(&sei);
+    if (!SUCCEEDED(hr))
+    {
+        ShowLastError(L"Failed to launch Microsoft Edge");
+        return hr;
+    }
+
 
     EdgeTargetInfo info;
     info = WatchForEdgeTab(pszInitialUrl);
@@ -80,10 +82,18 @@ HRESULT LaunchEdge(_In_ PCWSTR pszUrl, _Out_ DWORD pid)
     {
         return E_NOINTERFACE;
     }
-    else
+
+    info.pDoc->put_URL(SysAllocString(pszUrl));
+
+    if(bKeepAlive)
     {
-        pid = info.pid;
+        hr = WaitForProcessToExit(info.pid);
+        return hr;
+    }
+    else 
+    {
         return S_OK;
+
     }
 
     return E_FAIL;
@@ -124,7 +134,7 @@ HRESULT ShowLastError(_In_ PCWSTR pszErrorIntro)
 }
 
 
-HRESULT AttachLifeTime(_In_ DWORD dwPid)
+HRESULT WaitForProcessToExit(_In_ DWORD dwPid)
 {
     HRESULT hr = S_OK;
     DWORD dwResult; 
@@ -238,6 +248,7 @@ HRESULT EnumerateTargets(vector<EdgeTargetInfo>& vTargets)
                         i.title = title;
                         i.processName = processName;
                         i.pid = processId;
+                        i.pDoc = spDocument;
                         vTargets.push_back(i);
                     }
                 }

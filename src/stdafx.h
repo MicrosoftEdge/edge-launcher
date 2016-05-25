@@ -17,5 +17,6 @@
 #include <atlstr.h>
 #include <functional>
 #include <memory>
+#include <vector>
 
 using namespace std;
