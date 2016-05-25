@@ -15,3 +15,7 @@
 
 #include <atlbase.h>
 #include <atlstr.h>
+#include <functional>
+#include <memory>
+
+using namespace std;
