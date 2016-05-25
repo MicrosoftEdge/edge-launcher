@@ -20,7 +20,7 @@ int _tmain(int argc, _TCHAR* argv[])
     }
     if (argc == 2)
     {
-        if ((argv[1] == L"-?") | (argv[1] == L"-h") | (argv[1] == L"--help"))
+        if ((wcscmp(argv[1], L"-?") == 0) | (wcscmp(argv[1], L"-h") == 0) | (wcscmp(argv[1], L"--help") == 0))
         {
             ShowHelp();
             hr = E_ABORT;
@@ -33,7 +33,7 @@ int _tmain(int argc, _TCHAR* argv[])
     else if (argc == 3) 
     {
         pszUrl = argv[1];
-        if ((argv[2] == L"-k") | (argv[2] == L"--keepalive"))
+        if ((wcscmp(argv[2], L"-k") == 0) | (wcscmp(argv[2], L"--keepalive") == 0))
         {
             bKeepAlive = true;
         }
@@ -47,13 +47,13 @@ int _tmain(int argc, _TCHAR* argv[])
     }
     else
     {
-        pszUrl = L"http://www.bing.com";
+        pszUrl = L"http://www.bing.com/";
     }
 
     DWORD pid = 0;
     hr = LaunchEdge(pszUrl, pid);
 
-    if (bKeepAlive)
+    if (SUCCEEDED(hr) && bKeepAlive)
     {
         AttachLifeTime(pid);
     }
@@ -66,7 +66,7 @@ int _tmain(int argc, _TCHAR* argv[])
 HRESULT LaunchEdge(_In_ PCWSTR pszUrl, _Out_ DWORD pid)
 {
     PCWSTR pszAppUserModelId = L"Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge";
-    PCWSTR pszInitialUrl = L"http://bing.com";
+    PCWSTR pszInitialUrl = L"http://www.bing.com/";
     HRESULT hr;
     DWORD dwProcessID;
 
@@ -76,8 +76,17 @@ HRESULT LaunchEdge(_In_ PCWSTR pszUrl, _Out_ DWORD pid)
 
     EdgeTargetInfo info;
     info = WatchForEdgeTab(pszInitialUrl);
-    pid = info.pid;
-    return hr;
+    if (info.pid == 0)
+    {
+        return E_NOINTERFACE;
+    }
+    else
+    {
+        pid = info.pid;
+        return S_OK;
+    }
+
+    return E_FAIL;
 }
 
 void ShowHelp()
@@ -164,7 +173,7 @@ EdgeTargetInfo WatchForEdgeTab(_In_ PCWSTR pszUrl)
         for (size_t i = 0; i < vTargets.size(); i++)
         {
             EdgeTargetInfo info = vTargets[i];
-            if (info.url == pszUrl) {
+            if ((wcscmp(info.url, pszUrl) == 0)) {
                 return info;
             }
         }
