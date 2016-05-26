@@ -15,3 +15,10 @@
 
 #include <atlbase.h>
 #include <atlstr.h>
+#include <functional>
+#include <memory>
+#include <vector>
+#include <sstream>
+#include <cstdlib>
+
+using namespace std;
