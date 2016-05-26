@@ -7,7 +7,7 @@ struct EdgeTargetInfo
     HWND hwnd;
     BSTR url;
     DWORD pid;
-    IHTMLDocument2 *pDoc;
+    CComPtr<IHTMLDocument2> spDoc;
 };
 
 HRESULT LaunchEdge(_In_ PCWSTR pszUrl, _In_ BOOL bKeepAlive);

@@ -47,7 +47,7 @@ int _tmain(int argc, _TCHAR* argv[])
     }
     else
     {
-        pszUrl = L"http://www.bing.com/";
+        pszUrl = L"https://www.bing.com/";
     }
 
     hr = LaunchEdge(pszUrl, bKeepAlive);
@@ -88,13 +88,13 @@ HRESULT LaunchEdge(_In_ PCWSTR pszUrl, _In_ BOOL bKeepAlive)
         return E_NOINTERFACE;
     }
 
-    if (info.pDoc == nullptr)
+    if (info.spDoc == nullptr)
     {
         return E_NOINTERFACE;
     }
 
     CComPtr<IHTMLWindow2> spWindow;
-    hr = info.pDoc->get_parentWindow(&spWindow);
+    hr = info.spDoc->get_parentWindow(&spWindow);
     if (!SUCCEEDED(hr))
     {
         ShowLastError(L"Failed to get the IHTMLWindow2");
@@ -273,7 +273,7 @@ HRESULT EnumerateTargets(vector<EdgeTargetInfo>& vTargets)
                         EdgeTargetInfo i;
                         i.hwnd = hwnd;
                         i.pid = processId;
-                        i.pDoc = spDocument; 
+                        i.spDoc = spDocument; 
 
                         hr = spDocument->get_URL(&i.url);
                         if (hr != S_OK)
