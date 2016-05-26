@@ -5,9 +5,7 @@
 struct EdgeTargetInfo 
 {
     HWND hwnd;
-    PCWSTR title;
-    PCWSTR url;
-    PCWSTR processName;
+    BSTR url;
     DWORD pid;
     IHTMLDocument2 *pDoc;
 };

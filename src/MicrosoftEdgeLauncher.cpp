@@ -88,7 +88,25 @@ HRESULT LaunchEdge(_In_ PCWSTR pszUrl, _In_ BOOL bKeepAlive)
         return E_NOINTERFACE;
     }
 
-    info.pDoc->put_URL(SysAllocString(pszUrl));
+    if (info.pDoc == nullptr)
+    {
+        return E_NOINTERFACE;
+    }
+
+    CComPtr<IHTMLWindow2> spWindow;
+    hr = info.pDoc->get_parentWindow(&spWindow);
+    if (!SUCCEEDED(hr))
+    {
+        ShowLastError(L"Failed to get the IHTMLWindow2");
+        return hr;
+    }
+
+    spWindow->navigate(SysAllocString(pszUrl));
+    if (!SUCCEEDED(hr))
+    {
+        ShowLastError(L"Failed to navigate to launch URL");
+        return hr;
+    }
 
     hr = WaitForProcessToExit(info.pid);
     return hr;
@@ -184,7 +202,8 @@ EdgeTargetInfo WatchForEdgeTab(_In_ PCWSTR pszUrl)
 {
     EdgeTargetInfo info = { 0 };
     int loopCounter = 0;
-    int waitTimeMS = 2000;
+    int waitTimeMS = 1000;
+    int maxTries = 20;
 
     do
     {
@@ -202,8 +221,17 @@ EdgeTargetInfo WatchForEdgeTab(_In_ PCWSTR pszUrl)
             }
         }
 
-        if (loopCounter > 5)
+        if (loopCounter > maxTries)
         {
+            std::cout << "\nCouldn't find Edge URL with URL: " << pszUrl;
+            std::cout << "\nFound";
+
+            for (size_t i = 0; i < vTargets.size(); i++)
+            {
+                EdgeTargetInfo info = vTargets[i];
+                std::cout << "\n" << info.url;
+            }
+            
             return{ 0 };
         }
     } while (info.pid == 0);
@@ -242,27 +270,16 @@ HRESULT EnumerateTargets(vector<EdgeTargetInfo>& vTargets)
                     HRESULT hr = Helpers::GetDocumentFromHwnd(hwnd, spDocument);
                     if (hr == S_OK)
                     {
-                        CComBSTR url;
-                        hr = spDocument->get_URL(&url);
-                        if (hr != S_OK)
-                        {
-                            url = L"unknown";
-                        }
-
-                        CComBSTR title;
-                        hr = spDocument->get_title(&title);
-                        if (hr != S_OK)
-                        {
-                            title = L"";
-                        }
-
                         EdgeTargetInfo i;
                         i.hwnd = hwnd;
-                        i.url = url;
-                        i.title = title;
-                        i.processName = processName;
                         i.pid = processId;
-                        i.pDoc = spDocument;
+                        i.pDoc = spDocument; 
+
+                        hr = spDocument->get_URL(&i.url);
+                        if (hr != S_OK)
+                        {
+                            i.url = L"unknown";
+                        }
                         vTargets.push_back(i);
                     }
                 }
