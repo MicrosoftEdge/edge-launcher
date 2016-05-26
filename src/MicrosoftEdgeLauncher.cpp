@@ -4,6 +4,7 @@
 #include <iostream>
 #include <Psapi.h>
 #include "Helpers.h"
+#include <ctime>
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -58,24 +59,28 @@ int _tmain(int argc, _TCHAR* argv[])
 
 HRESULT LaunchEdge(_In_ PCWSTR pszUrl, _In_ BOOL bKeepAlive)
 {
-    PCWSTR pszAppUserModelId = L"Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge";
-    PCWSTR pszInitialUrl = L"http://www.bing.com/";
+    if(!bKeepAlive)
+    {
+        return LaunchEdgeViaShellExec(pszUrl);
+    }
+
     HRESULT hr;
     DWORD dwProcessID;
 
-    SHELLEXECUTEINFOW sei = { sizeof sei };
-    sei.lpVerb = L"open";
-    std::wstring wsUrl(pszUrl);
-    std::wstring concatted_stdstr = L"microsoft-edge:" + wsUrl;
-    sei.lpFile = concatted_stdstr.c_str();
-    hr = ShellExecuteExW(&sei);
+    std::srand(std::time(0));
+
+    int iRandomSeed = rand() % 1000 + 1;
+    wstringstream ss;
+    ss << L"http://example.com/?" << iRandomSeed;
+    wstring wsInitialUrl = ss.str();
+    PCWSTR pszInitialUrl = wsInitialUrl.c_str();
+
+    hr = LaunchEdgeViaShellExec(pszInitialUrl);
     if (!SUCCEEDED(hr))
     {
-        ShowLastError(L"Failed to launch Microsoft Edge");
         return hr;
     }
-
-
+    
     EdgeTargetInfo info;
     info = WatchForEdgeTab(pszInitialUrl);
     if (info.pid == 0)
@@ -85,18 +90,27 @@ HRESULT LaunchEdge(_In_ PCWSTR pszUrl, _In_ BOOL bKeepAlive)
 
     info.pDoc->put_URL(SysAllocString(pszUrl));
 
-    if(bKeepAlive)
+    hr = WaitForProcessToExit(info.pid);
+    return hr;
+}
+
+HRESULT LaunchEdgeViaShellExec(PCWSTR pszUrl)
+{
+    HRESULT hr;
+    SHELLEXECUTEINFOW sei = { sizeof sei };
+    sei.lpVerb = L"open";
+    std::wstring wsUrl(pszUrl);
+    std::wstring concatted_stdstr = L"microsoft-edge:" + wsUrl;
+    sei.lpFile = concatted_stdstr.c_str();
+    hr = ShellExecuteExW(&sei);
+
+    if (!SUCCEEDED(hr))
     {
-        hr = WaitForProcessToExit(info.pid);
+        ShowLastError(L"Failed to launch Microsoft Edge via shell execute");
         return hr;
     }
-    else 
-    {
-        return S_OK;
 
-    }
-
-    return E_FAIL;
+    return hr;
 }
 
 void ShowHelp()
