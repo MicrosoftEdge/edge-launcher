@@ -41,7 +41,7 @@ int _tmain(int argc, _TCHAR* argv[])
         {
             std::cout << "Error: Expecting -k got: \n " << argv[2];
             std::cout << "\n";
-            std::cout << "Use -h for usage info.";
+            std::cout << "\nUse -h for usage info.";
             hr = E_ABORT;
         }
     }
@@ -140,10 +140,8 @@ void ShowHelp()
     std::cout << "\n";
     std::cout << "\tMicrosoftEdgeLauncher.exe [url] -k";
     std::cout << "\n";
-    std::cout << "\n";
-    std::cout << "\turl - The URL to open in Microsoft Edge.";
-    std::cout << "\t-k  - Keep this program alive for as long as the launched process is alive.";
-    std::cout << "\n";
+    std::cout << "\nurl - The URL to open in Microsoft Edge.";
+    std::cout << "\n-k  - Keep this program alive for as long as the launched process is alive.";
     std::cout << "\n";
 }
 
