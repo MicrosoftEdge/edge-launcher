@@ -13,6 +13,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
     PCWSTR pszUrl = L"";
     bool bKeepAlive = false;
+    PCWSTR pszDefaultUrl = L"https://www.bing.com/";
 
     if (!SUCCEEDED(hr))
     {
@@ -24,6 +25,11 @@ int _tmain(int argc, _TCHAR* argv[])
         {
             ShowHelp();
             hr = E_ABORT;
+        }
+        else if ((wcscmp(argv[1], L"-k") == 0) | (wcscmp(argv[1], L"--keepalive") == 0))
+        {
+            pszUrl = pszDefaultUrl;
+            bKeepAlive = true;
         }
         else
         {
@@ -47,7 +53,7 @@ int _tmain(int argc, _TCHAR* argv[])
     }
     else
     {
-        pszUrl = L"https://www.bing.com/";
+        pszUrl = pszDefaultUrl;
     }
 
     hr = LaunchEdge(pszUrl, bKeepAlive);
