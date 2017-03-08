@@ -25,9 +25,5 @@ If you're using Visual Studio 2015 you don't need to do this as VS 2015 has buil
 5.	Once added you should now see “Microsoft Edge” in the F5 drop down 
   1. This will not enable debugging of Script from VS, just launching
 
-In the Win10 10049 flight Project Spartan can’t access localhost by default so you need to add the loopback permission. To do that from an admin command prompt:
-
-`CheckNetIsolation LoopbackExempt -a -n=Microsoft.MicrosoftEdge_8wekyb3d8bbwe`
-
 ## Code of Conduct
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
