@@ -2,9 +2,15 @@
 A simple command line exe to launch the Microsoft Edge browser at a URL. Handy if you need to launch Microsoft Edge from the command line or a batch script etc.
 
 ##Install
-1. Download the [latest](https://github.com/MicrosoftEdge/MicrosoftEdgeLauncher/releases/tag/1.0.0.0) exe from releases 
 
-##Usage
+## Binary download:
+Download the [latest](https://github.com/MicrosoftEdge/MicrosoftEdgeLauncher/releases/tag/1.0.0.0) exe from releases.
+
+## From NPM:
+1. Run `npm install edge-launcher`
+2. Open ./node_modules/edge-launcher/bin/MicrosoftEdgeLauncher.exe
+
+## Usage
 ```
 MicrosoftEdgeLauncher.exe [url] -k
 
@@ -12,7 +18,7 @@ MicrosoftEdgeLauncher.exe [url] -k
     -k  - Keep this program alive for as long as the launched process is alive.
 ```
 
-###Visual Studio Launching Microsoft Edge
+### Visual Studio Launching Microsoft Edge
 If you're using Visual Studio 2015 you don't need to do this as VS 2015 has built in support for Edge. If you are using an older version of VS and want to be able to F5 launch Edge you'll need to follow the steps below.
 
 1.	Download [latest](https://github.com/MicrosoftEdge/MicrosoftEdgeLauncher/releases/tag/1.0.0.0) exe from releases 
