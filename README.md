@@ -1,12 +1,12 @@
 # Microsoft Edge Launcher
 A simple command line exe to launch the Microsoft Edge browser at a URL. Handy if you need to launch Microsoft Edge from the command line or a batch script etc.
 
-##Install
+## Getting started
 
-## Binary download:
+### Binary download:
 Download the [latest](https://github.com/MicrosoftEdge/MicrosoftEdgeLauncher/releases/tag/1.0.0.0) exe from releases.
 
-## From NPM:
+### From NPM:
 1. Run `npm install edge-launcher`
 2. Open ./node_modules/edge-launcher/bin/MicrosoftEdgeLauncher.exe
 
