@@ -1,0 +1,19 @@
+{
+  "name": "edge-launcher",    
+  "author": "Andy Sterland <andster@microsoft.com>",
+  "version": "1.2.0",
+  "description": "Launcher for the Microsoft Edge browser.",
+  "license": "MIT",
+  "files": [
+    "dist/x64/EdgeDiagnosticsAdapter.exe"
+  ],
+  "keywords": [
+    "edge",
+    "diagnostics",
+    "devtools",
+    "browser",
+    "spawn",
+    "process",
+    "launch"
+  ]  
+}
