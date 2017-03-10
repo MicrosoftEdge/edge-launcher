@@ -4,11 +4,11 @@ A simple command line exe to launch the Microsoft Edge browser at a URL. Handy i
 ## Getting started
 
 ### Binary download:
-Download the [latest](https://github.com/MicrosoftEdge/MicrosoftEdgeLauncher/releases/tag/1.0.0.0) exe from releases.
+Download the [latest](https://github.com/MicrosoftEdge/MicrosoftEdgeLauncher/releases/tag/v1.2.2) exe from releases.
 
 ### From NPM:
 1. Run `npm install edge-launcher`
-2. Open ./node_modules/edge-launcher/bin/MicrosoftEdgeLauncher.exe
+2. Open ./node_modules/edge-launcher/dist/x86/MicrosoftEdgeLauncher.exe
 
 ## Usage
 ```
