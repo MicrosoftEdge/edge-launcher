@@ -1,7 +1,7 @@
 {
   "name": "edge-launcher",    
   "author": "Andy Sterland <andster@microsoft.com>",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Launcher for the Microsoft Edge browser.",
   "license": "MIT",
   "files": [
