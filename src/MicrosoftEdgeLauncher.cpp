@@ -77,7 +77,7 @@ HRESULT LaunchEdge(_In_ PCWSTR pszUrl, _In_ BOOL bKeepAlive)
 
     int iRandomSeed = rand() % 1000 + 1;
     wstringstream ss;
-    ss << L"http://example.com/?" << iRandomSeed;
+    ss << L"http://example.org/?" << iRandomSeed;
     wstring wsInitialUrl = ss.str();
     PCWSTR pszInitialUrl = wsInitialUrl.c_str();
 
